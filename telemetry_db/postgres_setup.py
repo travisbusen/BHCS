@@ -17,7 +17,7 @@ if __name__ == "__main__":
     output, error = run_command(docker_check_cmd)
     if error:
         print("Docker is not installed or not found in PATH.", file=sys.stderr)
-        sys.exit(1)
+
         # install docker for ubuntu
         print("Docker not found, installing Docker...")
         docker_install_cmd = """sudo apt-get update sudo apt-get install ca-certificates curl sudo install -m 0755 -d /etc/apt/keyrings sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc sudo chmod a+r /etc/apt/keyrings/docker.asc"""
