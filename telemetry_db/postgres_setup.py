@@ -26,7 +26,9 @@ if __name__ == "__main__":
             sudo apt-get install ca-certificates curl -y && \
             sudo install -m 0755 -d /etc/apt/keyrings && \
             sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
-            sudo chmod a+r /etc/apt/keyrings/docker.asc"
+            sudo chmod a+r /etc/apt/keyrings/docker.asc && \
+            sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg < /etc/apt/keyrings/docker.asc && \
+            sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7EA0A9C3F273FCD8"
         print("Adding Docker's official GPGkey...")
         time.sleep(2)
         output, error = run_command(docker_keys_cmd)
