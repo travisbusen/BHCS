@@ -51,5 +51,23 @@ if __name__ == "__main__":
             sys.exit(1)
         time.sleep(2)
         print("Docker installed successfully.")
+        docker_version = "docker --version"
+        time.sleep(2)
+        output, error = run_command(docker_version)
+        if error:
+            print("Error checking Docker version:", error, file=sys.stderr)
+            sys.exit(1)
+        else:
+            print("Docker version:", output.strip())
     else:
         print("Docker is installed:", output.strip())
+        time.sleep(2)
+        # proceed to install postgres
+        print("Proceeding to create PostgreSQL database with Docker compose")
+        time.sleep(2)
+        print("creating the directory posgres in your home directory")
+        time.sleep(2)
+        print("Create Directory for Docker Compose")
+        home = run_command("echo $HOME")[0].strip()
+        time.sleep(2)
+        os.makedirs(f"{home}/postgres", exist_ok=True)
