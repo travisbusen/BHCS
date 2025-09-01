@@ -165,3 +165,4 @@ if __name__ == "__main__":
             print("PostgreSQL container status:\n", output.strip())
         time.sleep(2)
         print("PostgreSQL setup complete. You can connect to the database using the provided credentials.")
+        ## TODO add logic to connect to database and create tables if they don't exist
