@@ -22,16 +22,22 @@ if __name__ == "__main__":
         # install docker for ubuntu
         print("Docker not found, installing Docker...")
         time.sleep(2)
-        docker_key_commands = ["sudo apt-get update", "sudo apt-get install ca-certificates curl", "sudo install -m 0755 -d /etc/apt/keyrings -y", "sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc", "sudo chmod a+r /etc/apt/keyrings/docker.asc"]
+        docker_key_commands = [
+            "sudo apt-get update",
+            "sudo apt-get install ca-certificates curl",
+            "sudo install -m 0755 -d /etc/apt/keyrings -y",
+            "sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc",
+            "sudo chmod a+r /etc/apt/keyrings/docker.asc",
+        ]
         print("Adding Docker's official GPGkey...")
         time.sleep(2)
-        for commands in docker_key_commands
-        output, error = run_command(commands)
-        if error:
-            print("Error adding Docker's GPG key:", error, file=sys.stderr)
-            sys.exit(1)
+        for commands in docker_key_commands:
+            output, error = run_command(commands)
+            if error:
+                print("Error adding Docker's GPG key:", error, file=sys.stderr)
+                sys.exit(1)
         print("Adding the repository to apt sources... ")
-        repo_add_cmd = "echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \\\"${UBUNTU_CODENAME:-$VERSION_CODENAME}\\\") stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && sudo apt-get update"
+        repo_add_cmd = 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \\"${UBUNTU_CODENAME:-$VERSION_CODENAME}\\") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && sudo apt-get update'
         output, error = run_command(repo_add_cmd)
         if error:
             print("Error adding Docker repository:", error, file=sys.stderr)
