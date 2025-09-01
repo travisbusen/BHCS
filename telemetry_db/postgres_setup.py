@@ -67,7 +67,98 @@ if __name__ == "__main__":
         time.sleep(2)
         print("creating the directory posgres in your home directory")
         time.sleep(2)
-        print("Create Directory for Docker Compose")
         home = run_command("echo $HOME")[0].strip()
         time.sleep(2)
         os.makedirs(f"{home}/postgres", exist_ok=True)
+        posgres_user = input("Enter the Postgres username")
+        posgres_password = input("Enter the Postgres password")
+        posgres_db = input("Enter the Postgres database name")
+        mem_limit = input("Enter the memory limit for the Postgres container (e.g., 12g for 12GB)")
+        cpu_limit = input("Enter the CPU limit for the Postgres container (e.g., 3.5 for 3.5 CPUs)")
+        time.sleep(2)
+        print("Creating the docker-compose.yml file...")
+        time.sleep(2)
+        docker_compose_content = f"""services:
+  pg:
+    image: postgres:16
+    container_name: pg16
+    restart: unless-stopped
+
+    # Bind to all interfaces so LAN clients can reach it
+    ports:
+      - "0.0.0.0:5432:5432"
+
+    environment:
+      POSTGRES_USER: {posgres_user}            # <-- your DB username
+      POSTGRES_PASSWORD: {posgres_password}  # <-- pick a strong password
+      POSTGRES_DB: {posgres_db}              # optional; defaults to POSTGRES_USER
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+      LAN_SUBNET: 192.168.1.0/24    # <-- your LAN CIDR for pg_hba; adjust as needed
+
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d:ro
+
+    mem_limit: {mem_limit}
+    cpus: "{cpu_limit}"
+    stop_grace_period: 120s
+
+    command:
+      - postgres
+      - -c
+      - listen_addresses=*
+      - -c
+      - shared_buffers=2GB
+      - -c
+      - effective_cache_size=10GB
+      - -c
+      - work_mem=128MB
+      - -c
+      - maintenance_work_mem=512MB
+      - -c
+      - wal_compression=on
+      - -c
+      - max_wal_size=4GB
+      - -c
+      - checkpoint_timeout=15min
+      - -c
+      - autovacuum_naptime=20s
+      - -c
+      - autovacuum_vacuum_scale_factor=0.05
+      - -c
+      - autovacuum_analyze_scale_factor=0.02
+      - -c
+      - jit=on
+
+    healthcheck:
+      # escape $ so it reaches the container env intact
+      test: ["CMD-SHELL","pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      """
+        with open(f"{home}/postgres/docker-compose.yml", "w") as f:
+            f.write(docker_compose_content)
+        time.sleep(2)
+        print("docker-compose.yml file created successfully.")
+        time.sleep(2)
+        print("Starting the PostgreSQL container...")
+        time.sleep(2)
+        os.chdir(f"{home}/postgres")
+        output, error = run_command("sudo docker compose up -d")
+        if error:
+            print("Error starting PostgreSQL container:", error, file=sys.stderr)
+            sys.exit(1)
+        time.sleep(2)
+        print("PostgreSQL container started successfully.")
+        time.sleep(2)
+        print("Checking the status of the PostgreSQL container...")
+        time.sleep(2)
+        output, error = run_command("sudo docker ps -f name=pg16")
+        if error:
+            print("Error checking PostgreSQL container status:", error, file=sys.stderr)
+            sys.exit(1)
+        else:
+            print("PostgreSQL container status:\n", output.strip())
+        time.sleep(2)
+        print("PostgreSQL setup complete. You can connect to the database using the provided credentials.")
