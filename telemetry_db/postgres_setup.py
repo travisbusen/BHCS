@@ -149,6 +149,9 @@ if __name__ == "__main__":
         if error:
             print("Error starting PostgreSQL container:", error, file=sys.stderr)
             sys.exit(1)
+        else:
+            for line in output.splitlines():
+                print(line)
         time.sleep(2)
         print("PostgreSQL container started successfully.")
         time.sleep(2)
