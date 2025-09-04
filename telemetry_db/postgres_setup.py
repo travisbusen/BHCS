@@ -89,11 +89,11 @@ if __name__ == "__main__":
       - "0.0.0.0:5432:5432"
 
     environment:
-      POSTGRES_USER: {posgres_user}            # <-- your DB username
-      POSTGRES_PASSWORD: {posgres_password}  # <-- pick a strong password
-      POSTGRES_DB: {posgres_db}              # optional; defaults to POSTGRES_USER
+      POSTGRES_USER: {posgres_user}            # <--  DB username
+      POSTGRES_PASSWORD: {posgres_password}  # <--  password
+      POSTGRES_DB: {posgres_db}              
       POSTGRES_INITDB_ARGS: "--data-checksums"
-      LAN_SUBNET: 192.168.1.0/24    # <-- your LAN CIDR for pg_hba; adjust as needed
+      LAN_SUBNET: 192.168.1.0/24    # <--  LAN CIDR for pg_hba
 
     volumes:
       - ./pgdata:/var/lib/postgresql/data
