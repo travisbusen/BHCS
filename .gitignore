@@ -1,2 +1,4 @@
-build
+# Build directory
+build/
+# VS Code settings
 .vscode/
