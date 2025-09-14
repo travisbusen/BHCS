@@ -1,9 +1,9 @@
 from machine import Pin, I2C
 import time
-from abc import ABC, abstractmethod
 
 
-class DeviceController(ABC):
+
+class DeviceController:
     def __init__(self, pin_number: int):
         self.pin = Pin(pin_number, Pin.OUT)  # Set pin as output
         self.on = False  # Device state
@@ -36,7 +36,10 @@ class DeviceController(ABC):
         self.pin.off()
         self.on = False
 
-class IsquaredCsensor(ABC):
+
+class 
+
+class IsquaredCsensor:
     def __init__(self, serial_clock_pin: int, serial_data_pin: int, frequency: int, address: int):
         self.scl = serial_clock_pin
         self.sda = serial_data_pin
@@ -45,7 +48,7 @@ class IsquaredCsensor(ABC):
         self.i2c = I2C(0, scl=Pin(self.scl), sda=Pin(self.sda), freq=self.freq)
     
 
-    @abstractmethod
+    
     def read_value(self):
         pass
 
