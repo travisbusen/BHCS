@@ -2,3 +2,15 @@
 build/
 # VS Code settings
 .vscode/
+# MicroPython compiled files
+*.mpy
+# Bytecode files
+*.pyc
+# Cache directories
+__pycache__/
+# Log files
+*.log
+# Temporary files
+*.tmp
+# Environment variables file
+.env
