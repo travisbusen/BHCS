@@ -2,7 +2,7 @@ import umqtt.simple as mqtt
 import ujson as json
 
 
-def load_env(env_path='.env'):
+def load_env(env_path='.env') -> dict:
     env_vars = {}
     try:
         with open(env_path, 'r') as f:

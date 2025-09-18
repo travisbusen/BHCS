@@ -1,5 +1,13 @@
 import time
 from periphials import Pump, Lights
+from utils import load_env, publish_mqtt_message
+
+mqtt_config = load_env()
+
+MQTT_SERVER = mqtt_config.get('MQTT_SERVER')
+MQTT_USER = mqtt_config.get('MQTT_USER')
+MQTT_PASSWORD = mqtt_config.get('MQTT_PASSWORD')
+MQTT_CLIENT_ID = 'SOUTH_RACK_BARLEY'
 
 supplyPump = Pump(1)
 saltPump = Pump(2)
