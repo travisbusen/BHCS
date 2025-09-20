@@ -1,6 +1,6 @@
 from machine import Pin, I2C
 import time
-from abc import ABC, abstractmethod
+#from abc import ABC, abstractmethod
 
 
 class I2CInit:
@@ -36,7 +36,7 @@ class I2CInit:
         return self.i2c
     
 
-class I2CSensor(ABC):
+class I2CSensor:
     """
     Abstract base class for I2C-based sensors.
     
@@ -54,7 +54,6 @@ class I2CSensor(ABC):
         self.i2c = i2c
         self.address = address
 
-    @abstractmethod
     def request_status(self, command: bytes) -> bool:
         """
         Request the status from the sensor.
@@ -67,7 +66,7 @@ class I2CSensor(ABC):
         """
         pass
         
-    @abstractmethod
+    
     def request_measurement(self, command: bytes) -> bool:
         """
         Request a new measurement from the sensor.
@@ -80,7 +79,6 @@ class I2CSensor(ABC):
         """
         pass
         
-    @abstractmethod
     def read_measurement(self, num_bytes: int) -> bytes:
         """
         Read measurement data from the sensor.

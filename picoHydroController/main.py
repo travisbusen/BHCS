@@ -1,7 +1,7 @@
 import utime
 import requests
-from  periphials import Pump, Lights
-from utils import load_env, publish_mqtt_message, connect_wifi
+from periphials import Pump, Lights
+from utils import load_env, publish_mqtt_message, connect_wifi, set_rtc
 
 mqtt_config = load_env()
 
@@ -23,13 +23,19 @@ def controlSupplyPump():
       supplyPump.device_on()
       supplyPump.set_runtime_duration(5000)  # Run for 5 seconds
       print("Supply Pump ON")
+
+
+if connect_wifi(WIFI_SSID, WIFI_PASSWORD):
    
 
 
 def main():
    # check if wifi is connected
-   if connect_wifi(WIFI_SSID, WIFI_PASSWORD)
-   pass
+   if connect_wifi(WIFI_SSID, WIFI_PASSWORD):
+      # set the RTC
+      set_rtc("Chicago")
+
+   
 
 
 def mqtt_test():
