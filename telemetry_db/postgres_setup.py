@@ -5,7 +5,7 @@ import subprocess
 
 
 def run_command(command):
-    """Run a shell command and return the result."""
+    """Run a bash shell command and return the result."""
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
     return result.stdout, result.stderr
 
