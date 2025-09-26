@@ -2,6 +2,7 @@ from time import sleep
 import ujson as json
 import network
 import requests
+from umqtt.simple import MQTTClient
 import utime
 from machine import RTC
 
@@ -28,7 +29,7 @@ def publish_mqtt_message(
     topic: str,
     message: dict,
 ):
-    client = mqtt.MQTTClient(client_id, broker, port, user, password)
+    client = MQTTClient(client_id, broker, port, user, password)
     try:
         client.connect()
         client.publish(topic, json.dumps(message))

@@ -1,11 +1,13 @@
 import utime
 import requests
+
 from periphials import Pump, Lights
 from utils import load_env, publish_mqtt_message, connect_wifi, set_rtc
 
 mqtt_config = load_env()
 
 MQTT_SERVER = mqtt_config.get('MQTT_SERVER')
+MQTT_PORT = mqtt_config.get('MQTT_PORT')
 MQTT_USER = mqtt_config.get('MQTT_USER')
 MQTT_PASSWORD = mqtt_config.get('MQTT_PASSWORD')
 MQTT_CLIENT_ID = 'SOUTH_RACK_BARLEY'
@@ -45,18 +47,15 @@ def mqtt_test():
       message = {
          "device": "SOUTH_RACK_BARLEY",
          "status": "active",
-         "timestamp": time.time()
+         "timestamp": utime.time()
       }
       publish_mqtt_message(
          client_id=MQTT_CLIENT_ID,
-         broker=MQTT_SERVER.split(':')[0],
-         port=int(MQTT_SERVER.split(':')[1]),
+         broker=MQTT_SERVER,
+         port=int(MQTT_PORT),
          user=MQTT_USER,
          password=MQTT_PASSWORD,
          topic="home/garden/south_rack_barley/status",
          message=message
       )
-
-
-
 
